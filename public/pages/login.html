@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../css/loginStyle.css" rel="stylesheet">
+    <title>Meu Chat</title>
+</head>
+<body>
+
+    <form onsubmit="return false;">
+        <h2>Login</h2>
+        <br>
+        <div>
+            <label for="nome">Usuario: </label>
+            <select class="pessoa">
+                <option value="Atendente">Atendente</option>
+                <option value="Cliente">Cliente</option>
+            </select>
+        </div>
+        <div>
+            <label for="senha">Senha: </label>
+            <input type="password" id="senha" name="senha">
+        </div>
+        <button id="btn-enviar">Enviar</button>
+    </form>
+    <script src="../js/loginScript.js"></script>
+    
+</body>
+</html>
+

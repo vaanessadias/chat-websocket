@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../css/chatStyle.css" rel="stylesheet">
+    <title>Meu Chat</title>
+</head>
+<body>
+
+    <section class="container-chat-completo">
+        <div class="container">
+            <img class="imagem-atendente" src="../imagens/icones/telemarketer-headset-svgrepo-com.png">
+            <div class="cabecalho-chat">
+                <p class="titulo-chat">Chat de Atendimento</p>
+                <p class="nome-atendente">
+                </p>
+            </div>
+            <div class="caixa-msg-conversa">
+                <div>
+                    <span class="historico-chat">Histórico de Chat</span>
+                    <p class="msg-aviso">     
+                    </p>
+                </div>
+                <ul id="chat">
+                </ul>
+            </div>
+        </div>
+
+        <form class="formulario-envio" onsubmit="return false;">
+            <h3>Nova Mensagem</h3>
+            <br>
+            <div class="bloco-de-envio">
+                <label for="nome">Nome Completo</label>
+                <br>
+                <input type="text" id="nome" name="nome" placeholder="Digite seu nome">
+            </div>
+            <div class="bloco-de-envio">
+                <label for="msg">Mensagem</label>
+                <br>
+                <textarea type="text" id="msg" name="msg" placeholder="Digite a mensagem"></textarea>
+            </div>
+            <button id="btn-enviar">Enviar Mensagem</button>
+            <br>
+        </form>
+        
+    </section>
+    <script src="../js/chatScript.js"></script>
+    
+</body>
+</html>

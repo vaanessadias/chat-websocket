@@ -1,0 +1,282 @@
+*{
+
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@font-face{
+
+    font-family: "FonteChat";
+    src: url("fonts/Inter/Inter-VariableFont_opszwght.ttf") format("truetype");    
+}
+
+.container-chat-completo{
+
+    display: flex;
+    width: 970px;
+    margin: 0 auto;
+}
+
+.formulario-envio{
+
+    margin-top: 10px;
+    border-radius: 10px;
+    border: 1px solid rgb(234, 234, 237);
+    height: 400px;
+    display: flex;
+    flex-flow: column wrap;
+    padding: 20px;
+    box-shadow:  1px 1px 6px rgba(123, 122, 122, 0.3);
+    
+}
+
+input, textarea{
+
+    width: 200px;
+    padding: 5px;
+    border: 2px solid rgb(234, 234, 237);
+    border-radius: 5px;
+
+}
+
+textarea{
+
+    height: 100px;
+}
+
+.container{
+
+    width: 700px;
+    height: 60px;
+    background-color: rgb(231, 231, 234);
+    position: relative;
+    margin: 10px auto;
+    border-radius: 10px;
+    display: flex;
+    justify-content: flex-start;
+    
+}
+
+.caixa-msg-conversa{
+
+    width: 100%;
+    height: 350px;
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    top: 50px;
+    border: 1px solid rgb(234, 234, 237);
+    border-radius: 0 0 10px 10px;
+    box-shadow:  1px 1px 6px rgba(123, 122, 122, 0.2);
+    overflow-y: auto;
+}
+
+.imagem-atendente{
+
+    background-color: rgb(231, 231, 234);
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+}
+
+.cabecalho-chat{
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    margin-left: 10px;
+    transform: translateY(-5px);
+    font-family: "FonteChat";
+    font-size: 14px;
+}
+
+.titulo-chat{
+
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.nome-atendente{
+
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.status-online{
+
+    color: green;
+    margin-left: 2px;
+}
+
+.status-offline{
+
+    color: rgb(179, 32, 32);
+    margin-left: 2px;
+}
+
+h3{
+    font-family: "FonteChat";
+    font-weight: 600;
+    font-size: 15px;
+}
+
+label{
+
+    font-family: "FonteChat";
+    font-weight: 500;
+    font-size: 12px;
+}
+
+textarea::placeholder, input::placeholder{
+
+    font-family: "FonteChat";
+    font-size: 12px;
+}
+
+.bloco-de-envio{
+
+    margin-top: 15px;
+}
+
+#btn-enviar{
+
+    margin-top: 15px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 2px solid rgb(202, 183, 76);
+    background-color: rgb(202, 183, 76);
+    font-family: "FonteChat";
+    color: white;
+    font-weight: 500;
+    font-size: 12px;
+}
+
+.historico-chat{
+
+    font-family: "FonteChat";
+    font-size: 14px;
+    font-weight: 600;
+    margin-left: 10px;
+    position: absolute;
+    top: 10px;
+    transform: translateY(10px);
+}
+
+.msg-aviso{
+
+    position: absolute;
+    top: 50px;
+    left: 10px;
+    background-color: rgb(245, 241, 221);
+    padding: 10px;
+    width: 650px;
+    font-family: "FonteChat";
+    font-size: 12px;
+    font-weight: 400;
+    border-radius: 5px;
+    border: 1px solid rgb(218, 201, 145);
+    display: none;
+    justify-content: flex-start;
+    align-items: center;
+    opacity: 1;
+    transition: opacity 1s ease;
+}
+
+.msg-aviso.fade-out{
+    opacity: 0;
+}
+
+.aviso-principal{
+
+    font-weight: 600;
+}
+
+.aviso-secundario{
+
+    margin-left: 2px;
+}
+
+.aviso-icone{
+
+    width: 20px;
+    margin-right: 5px;
+}
+
+#chat{
+
+    position: absolute;
+    top: 150px;
+    left: 10px;
+
+}
+
+.mudar-direita{
+
+    display: flex;
+    flex-flow: row-reverse nowrap;
+    justify-content: end;
+}
+
+.conteudo-completo{
+
+    list-style: none;
+    display: flex;
+    flex-flow: row nowrap;
+    width: 650px;
+    margin-bottom: 15px;
+}
+
+.conteudo-msg{
+
+    display: block;
+    padding: 10px;
+    background-color: rgb(205, 224, 236);
+    border-radius: 5px;
+    width: 200px;
+}
+
+.conteudo-completo > .imagem-atendente{
+
+    background-color: rgb(255, 255, 255);
+}
+
+.cor-de-receber{
+
+    background-color: rgb(88, 88, 87);
+    color: white;
+}
+
+.nome-pessoa{
+
+    font-family: "FonteChat";
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.msg-enviada{
+    font-family: "FonteChat";
+    font-size: 12px;
+    font-weight: 300;
+    width: 100%;
+}
+
+.ativo{
+
+    display: block;
+}
+
+.oculto{
+
+    display: none;
+}
+
+.conteudo-completo > .imagem-cliente{
+
+    background-color: rgb(218, 213, 215);
+    border-radius: 50%;
+    padding: 1px;
+    width: 43px;
+    height: 43px;
+    margin: 5px;
+    border: 1px solid rgb(222, 218, 186);
+}
