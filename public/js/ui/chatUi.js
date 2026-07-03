@@ -1,6 +1,8 @@
+import socket from '../services/WebSocketService.js'
+
 const $ = (selector) => document.querySelector(selector)
 
-const DOM = {
+export const DOM = {
 
     Variaveis:{
 
@@ -19,31 +21,7 @@ const DOM = {
     }
 }
 
-
-
-const socket = new WebSocket("ws://localhost:3000")
-
-socket.onopen = () => {
-
-    if(localStorage.getItem("tipoPessoa") === "Atendente"){
-        socket.send(JSON.stringify({
-            id: 0,
-            tipoPessoa: localStorage.getItem("tipoPessoa"),
-            fila: false,
-            pessoaLogada: localStorage.getItem("pessoaLogada") 
-        }))
-    }else if(localStorage.getItem("tipoPessoa") === "Cliente"){
-
-        socket.send(JSON.stringify({
-            id: 0,
-            tipoPessoa: localStorage.getItem("tipoPessoa"),
-            fila: false,
-            pessoaLogada: localStorage.getItem("pessoaLogada")
-        }))
-    }
-}
-
-function msgAviso(dados){
+export function msgAviso(dados){
 
     const linhaMensagemPrincipal = document.createElement("span")
     const linhaMensagemSecundaria = document.createElement("span")
@@ -108,7 +86,7 @@ function msgAviso(dados){
     }, 3000)
 }
 
-function criarMensagem(dados, imagem){
+export function criarMensagem(dados, imagem){
 
     const ConteudoCompletoMsg = DOM.Variaveis.chat
     const criarLinhaLista = document.createElement("li")
@@ -146,7 +124,7 @@ function criarMensagem(dados, imagem){
     ConteudoCompletoMsg.appendChild(criarLinhaLista)
 }
 
-function enviarMensagemNoProprioChat(dados){
+export function enviarMensagemNoProprioChat(dados){
 
     let imagem
 
@@ -171,7 +149,7 @@ function enviarMensagemNoProprioChat(dados){
 
 }
 
-function enviarMensagemParaOutro(dados){
+export function enviarMensagemParaOutro(dados){
 
     let imagem
 
@@ -195,97 +173,3 @@ function enviarMensagemParaOutro(dados){
     }
 
 }
-
-socket.onmessage = (e) => {
-
-    const dados = JSON.parse(e.data)
-    const nomeAtendente = DOM.Chat.nomeAtendente
-    const status = document.createElement("span")
-    // Criar e mandar msg
-
-
-    if(dados.nomeAtendente !== undefined){
-
-        nomeAtendente.textContent = dados.nomeAtendente || "Atendente"
-    }
-
-    if(dados.desligado === true && dados.tipo === "Atendente"){
-        status.textContent = " (Offline)"
-        status.classList.remove("status-online")
-        status.classList.add("status-offline")
-    }else if(dados.nomeAtendente !== undefined){
-        status.textContent = " (Online)"
-        status.classList.add("status-online")
-    }
-
-    nomeAtendente.appendChild(status)
-    
-
-    if(dados.corEnvio === "azul"){
-
-        enviarMensagemNoProprioChat(dados)
-
-    }
-
-    if(dados.corEnvio === "preto"){
-
-        enviarMensagemParaOutro(dados)
-
-    }
-
-    if(dados.tipoPessoa === "Cliente" && dados.listaVazia === true){
-    
-        msgAviso(dados)
-    }else if(dados.tipoPessoa === "Cliente" && dados.listaVazia === false){
-
-        msgAviso(dados)
-    }
-
-    if(dados.desligado === true && dados.desligado !== undefined){
-
-        msgAviso(dados)
-    }
-
-
-    
-}
-
-DOM.Variaveis.botaoEnviar.addEventListener("click", (e) => {
-
-    e.preventDefault()
-    const mensagem = DOM.Variaveis.msg.value.trim()
-    let pessoa = DOM.Variaveis.nome.value.trim()
-    let usuario = ""
-
-    if(!pessoa){
-
-        pessoa = "Cliente"
-    }
-
-    localStorage.setItem("nome", pessoa)
-
-    if(!mensagem){
-        return
-    } 
-
-    if(localStorage.getItem("tipoPessoa") === "Atendente"){
-  
-        pessoa = `Atendente ${localStorage.getItem("nome")}`  
-        usuario = pessoa 
-
-    }else{
-
-        usuario = pessoa
-    }
-
-    socket.send(JSON.stringify({
-
-        nome: usuario, 
-        mensagem: mensagem,
-        tipoPessoa: localStorage.getItem("tipoPessoa")
-    }))
-
-    DOM.Variaveis.msg.value = ""
-})
-
-
