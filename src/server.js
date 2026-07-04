@@ -2,6 +2,8 @@ import http from "http"
 import express from "express"
 import authRoutes from "./routes/authRoutes.js"
 import path from 'path'
+import { WebSocketServer, WebSocket } from "ws"
+import WebSocketService from './services/WebSocketService.js'
 
 const app = express()
 
@@ -15,8 +17,13 @@ app.use(authRoutes)
 
 const server = http.createServer(app)
 
+const wss = new WebSocketServer({server})
+
+WebSocketService.iniciarWebSocket(wss)
 
 server.listen(3000, () => {
 
     console.log('Servidor rodando')
 })
+
+export default wss 

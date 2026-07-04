@@ -30,27 +30,34 @@ socket.onopen = () => {
 socket.onmessage = (e) => {
 
     const dados = JSON.parse(e.data)
-    const nomeAtendente = localStorage.getItem("nome")
+    let nomeAtendente = dados.nome
     const status = document.createElement("span")
+
+    console.log(dados)
+
     // Criar e mandar msg
 
+    if(dados.posicao > 1){
+
+        msgAviso(dados)
+        return
+    }
 
     if(dados.nomeAtendente !== undefined){
 
-        nomeAtendente.textContent = dados.nomeAtendente || "Atendente"
+        nomeAtendente = "Atendente"
     }
 
     if(dados.desligado === true && dados.tipo === "Atendente"){
         status.textContent = " (Offline)"
         status.classList.remove("status-online")
         status.classList.add("status-offline")
+
     }else if(dados.nomeAtendente !== undefined){
         status.textContent = " (Online)"
         status.classList.add("status-online")
     }
 
-    nomeAtendente.appendChild(status)
-    
 
     if(dados.corEnvio === "azul"){
 

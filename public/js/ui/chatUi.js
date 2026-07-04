@@ -1,6 +1,4 @@
-import socket from '../services/WebSocketService.js'
-
-const $ = (selector) => document.querySelector(selector)
+export const $ = (selector) => document.querySelector(selector)
 
 export const DOM = {
 
@@ -32,7 +30,7 @@ export function msgAviso(dados){
 
     iconeAviso.src = "imagens/icones/warning-filled-svgrepo-com.png"
 
-    if(dados.listaVazia === true){
+    if(dados.listaVazia === true || dados.posicao > 0){
         linhaMensagemPrincipal.textContent = dados.mensagem
         linhaMensagemSecundaria.textContent = "Aguarde, Uma mensagem Será Enviada Quando Um Atendente Entrar."
 
