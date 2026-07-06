@@ -92,7 +92,8 @@ export function enviarMensagem (dados, ws, wss){
                     mensagem: dados.mensagem,
                     posicao: 0,
                     tipoPessoa: client.tipoPessoa,
-                    corEnvio: "azul"
+                    corEnvio: "azul",
+                    pareado: true
 
                 }));
             }
@@ -108,7 +109,8 @@ export function enviarMensagem (dados, ws, wss){
                                 posicao: 0,
                                 tipoPessoa: a.tipoPessoa,
                                 corEnvio:"preto",
-                                enviado: ws.tipoPessoa
+                                enviado: ws.tipoPessoa,
+                                pareado: true
                             }))
                         }
                     }
@@ -127,7 +129,8 @@ export function enviarMensagem (dados, ws, wss){
                                 tipoPessoa: c.tipoPessoa,
                                 corEnvio:"preto",
                                 nomeAtendente: ws.nome,
-                                enviado: ws.tipoPessoa
+                                enviado: ws.tipoPessoa,
+                                pareado: true
                             }))
                         }
                     }

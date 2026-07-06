@@ -21,7 +21,9 @@ export function iniciarWebSocket(wss){
 
             if(ws.tipoPessoa === "Atendente"){
 
-                filaAtendentes = filaAtendentes.filter(atendente => atendente.id !== ws.id)
+                let encontrarAtendente = filaAtendentes.findIndex(antendente => antendente.id === ws.id)
+        
+                filaAtendentes.splice(encontrarAtendente, 1)
 
                 wss.clients.forEach(client => {
 
@@ -46,7 +48,9 @@ export function iniciarWebSocket(wss){
 
             }else if(ws.tipoPessoa === "Cliente"){
 
-                filaCliente = filaCliente.filter(cli => cli.id !== ws.id)
+                let encontrarCliente = filaCliente.findIndex(cli => cli.id === ws.id)
+        
+                filaCliente.splice(encontrarCliente, 1)
 
                 wss.clients.forEach(client => {
 

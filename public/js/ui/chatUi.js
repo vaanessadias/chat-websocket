@@ -28,16 +28,20 @@ export function msgAviso(dados){
     const nomeAtendente = DOM.Chat.nomeAtendente
     const statusAtendente = DOM.Chat.status
 
-    iconeAviso.src = "imagens/icones/warning-filled-svgrepo-com.png"
+    iconeAviso.src = "../imagens/icones/warning-filled-svgrepo-com.png"
 
-    if(dados.listaVazia === true || dados.posicao > 0){
+    if(dados.posicao > 1){
+
+        linhaMensagemPrincipal.textContent = `Atendentes Ocupados. Sua posição na fila é ${dados.posicao}. Aguarde!`
+        
+    }else if(dados.listaVazia){
         linhaMensagemPrincipal.textContent = dados.mensagem
         linhaMensagemSecundaria.textContent = "Aguarde, Uma mensagem Será Enviada Quando Um Atendente Entrar."
 
         linhaMensagemPrincipal.classList.add("aviso-principal")
         linhaMensagemSecundaria.classList.add("aviso-secundario")
 
-    }else if(dados.listaVazia === false){
+    }else if(!dados.listaVazia){
 
         linhaMensagemPrincipal.textContent = dados.mensagem
         linhaMensagemSecundaria.textContent = "Mande Sua Mensagem!"
@@ -45,13 +49,14 @@ export function msgAviso(dados){
         linhaMensagemPrincipal.classList.add("aviso-principal")
         linhaMensagemSecundaria.classList.add("aviso-secundario")
 
-    }else if(dados.desligado === true && dados.tipo === "Atendente"){
+    }
+    if(dados.desligado && dados.tipo === "Atendente"){
 
         linhaMensagemPrincipal.textContent = "Atendente Desconectado."
 
         linhaMensagemPrincipal.classList.add("aviso-principal")
 
-    }else if(dados.desligado === true && dados.tipo === "Cliente"){
+    }else if(dados.desligado && dados.tipo === "Cliente"){
 
         linhaMensagemPrincipal.textContent = "Cliente Desconectado."
 
@@ -61,13 +66,14 @@ export function msgAviso(dados){
     iconeAviso.classList.add("aviso-icone")
     paragrafoAviso.appendChild(iconeAviso)
 
-    if(dados.desligado === true){
-
-        paragrafoAviso.appendChild(linhaMensagemPrincipal)
-    }else{
+    if(dados.listaVazia || !dados.listaVazia && dados.desligado === undefined){
 
         paragrafoAviso.appendChild(linhaMensagemPrincipal)
         paragrafoAviso.appendChild(linhaMensagemSecundaria)
+        
+    }else if(dados.desligado || !dados.desligado || dados.posicao !== undefined){
+
+        paragrafoAviso.appendChild(linhaMensagemPrincipal)
     }
 
     paragrafoAviso.classList.add("msg-aviso")
@@ -129,7 +135,7 @@ export function enviarMensagemNoProprioChat(dados){
     if(dados.tipoPessoa === "Atendente"){
 
         imagem = document.createElement("img")
-        imagem.src = "imagens/icones/telemarketer-headset-svgrepo-com.png"
+        imagem.src = "../imagens/icones/telemarketer-headset-svgrepo-com.png"
         imagem.classList.add("imagem-atendente")
 
         criarMensagem(dados, imagem)
@@ -139,7 +145,7 @@ export function enviarMensagemNoProprioChat(dados){
     }else if(dados.tipoPessoa === "Cliente"){
 
         imagem = document.createElement("img")
-        imagem.src = "imagens/icones/person-svgrepo-com.png"
+        imagem.src = "../imagens/icones/person-svgrepo-com.png"
         imagem.classList.add("imagem-cliente")
             
         criarMensagem(dados, imagem)
@@ -154,7 +160,7 @@ export function enviarMensagemParaOutro(dados){
     if(dados.enviado === "Atendente"){
 
         imagem = document.createElement("img")
-        imagem.src = "imagens/icones/telemarketer-headset-svgrepo-com.png"
+        imagem.src = "../imagens/icones/telemarketer-headset-svgrepo-com.png"
         imagem.classList.add("imagem-atendente")
 
         criarMensagem(dados, imagem)
@@ -164,7 +170,7 @@ export function enviarMensagemParaOutro(dados){
     }else if(dados.enviado === "Cliente"){
 
         imagem = document.createElement("img")
-        imagem.src = "imagens/icones/person-svgrepo-com.png"
+        imagem.src = "../imagens/icones/person-svgrepo-com.png"
         imagem.classList.add("imagem-cliente")
             
         criarMensagem(dados, imagem)

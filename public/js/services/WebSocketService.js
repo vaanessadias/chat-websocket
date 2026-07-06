@@ -39,6 +39,7 @@ socket.onmessage = (e) => {
 
     if(dados.posicao > 1){
 
+        console.log(dados)
         msgAviso(dados)
         return
     }
@@ -48,7 +49,7 @@ socket.onmessage = (e) => {
         nomeAtendente = "Atendente"
     }
 
-    if(dados.desligado === true && dados.tipo === "Atendente"){
+    if(dados.desligado && dados.tipo === "Atendente"){
         status.textContent = " (Offline)"
         status.classList.remove("status-online")
         status.classList.add("status-offline")
@@ -71,17 +72,16 @@ socket.onmessage = (e) => {
 
     }
 
-    if(dados.tipoPessoa === "Cliente" && dados.listaVazia === true){
+    if(dados.listaVazia || !dados.listaVazia && dados.listaVazia !== undefined){
     
         msgAviso(dados)
-    }else if(dados.tipoPessoa === "Cliente" && dados.listaVazia === false){
-
-        msgAviso(dados)
+        return
     }
 
-    if(dados.desligado === true && dados.desligado !== undefined){
+    if(dados.desligado || !dados.desligado && dados.desligado !== undefined){
 
         msgAviso(dados)
+        return
     }
 
 }
