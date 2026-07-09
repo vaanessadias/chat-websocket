@@ -11,8 +11,6 @@ import {
     valorIdAtendente
 } from "./chatService.js"
 
-console.log("Entrei em websocketservice")
-
 export function iniciarWebSocket(wss){
 
     wss.on("connection", (ws) => {

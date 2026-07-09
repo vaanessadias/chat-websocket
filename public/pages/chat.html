@@ -8,85 +8,70 @@
 </head>
 <body>
 
-    <section class="container-chat-completo">
-        <div class="container">
-            <img class="imagem-atendente" src="../imagens/icones/telemarketer-headset-svgrepo-com.png">
-            <div class="cabecalho-chat">
-                <p class="titulo-chat">Chat de Atendimento</p>
-                <p class="nome-atendente">
-                </p>
+    <section class="container-principal">
+
+        <section class="painel-de-informacoes">
+
+            <div class="titulo-painel">
+                <p>Painel de Informações</p>
             </div>
-            <div class="caixa-msg-conversa">
+
+            <div class="conteudo-do-painel">
                 <div>
-                    <span class="historico-chat">Histórico de Chat</span>
-                    <p class="msg-aviso">     
-                    </p>
+                    <p>Atendentes Online: <span id="numero-atendentes"></span></p>
                 </div>
-                <ul id="chat">
-                </ul>
+
+                <div>
+                    <p>Clientes Aguardando: <span id="numero-clientes-espera"></span></p>
+                </div>
+
+                <div>
+                    <p>Atendimentos em andamento: <span id="numero-atendimentos-andamento"></span></p>
+                </div>
+
+                <div>
+                    <p>Tempo Médio de Espera: <span id="numero-tempo-espera"></span></p>
+                </div>
             </div>
-        </div>
-
-        <form class="formulario-envio" onsubmit="return false;">
-            <h3>Nova Mensagem</h3>
-            <br>
-            <div class="bloco-de-envio">
-                <label for="nome">Nome Completo</label>
-                <br>
-                <input type="text" id="nome" name="nome" placeholder="Digite seu nome">
-            </div>
-            <div class="bloco-de-envio">
-                <label for="msg">Mensagem</label>
-                <br>
-                <textarea type="text" id="msg" name="msg" placeholder="Digite a mensagem"></textarea>
-            </div>
-            <button id="btn-enviar">Enviar Mensagem</button>
-            <br>
-        </form>
-        
-    </section>
-
-    <section class="painel-informacoes">
-
-        <section class="container-informacoes-chat">
-            
-            <h3>Informações de Atendimento</h3>
-            <table>
-
-                <thead>
-
-                    <tr>
-                        <th>Atendentes Online</th>
-                        <th>Clientes Aguardando</th>
-                        <th>Atendimento em Andamento</th>
-                        <th>Tempo Médio de Espera</th>
-                    </tr>
-
-                </thead>
-
-                <tbody></tbody>
-
-            </table>
 
         </section>
+        <section class="container-chat-completo">
 
-        <section class="container-status-atendentes">
+            <div class="container">
+                <img class="imagem-atendente" src="../imagens/icones/telemarketer-headset-svgrepo-com.png">
+                <div class="cabecalho-chat">
+                    <p class="titulo-chat">Chat de Atendimento</p>
+                    <p class="nome-atendente">
+                    </p>
+                </div>
+                <div class="caixa-msg-conversa">
+                    <div>
+                        <span class="historico-chat">Histórico de Chat</span>
+                        <p class="msg-aviso">     
+                        </p>
+                    </div>
+                    <ul id="chat">
+                    </ul>
+                </div>
+            </div>
 
-            <h3>Painel de Atendimento</h3>
-            <table>
-
-                <thead>
-
-                    <tr>
-                        <th>Status dos Atendentes</th>
-                    </tr>
-
-                </thead>
-
-                <tbody></tbody>
-
-            </table>
-
+            <form class="formulario-envio" onsubmit="return false;">
+                <h3>Nova Mensagem</h3>
+                <br>
+                <div class="bloco-de-envio">
+                    <label for="nome">Nome Completo</label>
+                    <br>
+                    <input type="text" id="nome" name="nome" placeholder="Digite seu nome">
+                </div>
+                <div class="bloco-de-envio">
+                    <label for="msg">Mensagem</label>
+                    <br>
+                    <textarea type="text" id="msg" name="msg" placeholder="Digite a mensagem"></textarea>
+                </div>
+                <button id="btn-enviar">Enviar Mensagem</button>
+                <br>
+            </form>
+            
         </section>
 
     </section>

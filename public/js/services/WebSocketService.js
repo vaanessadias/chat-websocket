@@ -2,10 +2,15 @@ import {
   msgAviso,
   criarMensagem,
   enviarMensagemNoProprioChat,
-  enviarMensagemParaOutro
+  enviarMensagemParaOutro,
+  DOM,
+  criarStatusAtendimento,
+  alterarStatusAtendimento
 } from "../ui/chatUI.js"
 
 const socket = new WebSocket("ws://localhost:3000")
+let alterarStatus
+let condicao = true
 
 socket.onopen = () => {
 
@@ -16,6 +21,10 @@ socket.onopen = () => {
             fila: false,
             pessoaLogada: localStorage.getItem("pessoaLogada") 
         }))
+        if(alterarStatus === undefined){
+            alterarStatus = criarStatusAtendimento("online")
+        }
+
     }else if(localStorage.getItem("tipoPessoa") === "Cliente"){
 
         socket.send(JSON.stringify({
@@ -24,45 +33,27 @@ socket.onopen = () => {
             fila: false,
             pessoaLogada: localStorage.getItem("pessoaLogada")
         }))
+
     }
+
 }
 
 socket.onmessage = (e) => {
 
     const dados = JSON.parse(e.data)
-    let nomeAtendente = dados.nome
-    const status = document.createElement("span")
-
-    console.log(dados)
 
     // Criar e mandar msg
 
     if(dados.posicao > 1){
-
-        console.log(dados)
         msgAviso(dados)
         return
-    }
-
-    if(dados.nomeAtendente !== undefined){
-
-        nomeAtendente = "Atendente"
-    }
-
-    if(dados.desligado && dados.tipo === "Atendente"){
-        status.textContent = " (Offline)"
-        status.classList.remove("status-online")
-        status.classList.add("status-offline")
-
-    }else if(dados.nomeAtendente !== undefined){
-        status.textContent = " (Online)"
-        status.classList.add("status-online")
     }
 
 
     if(dados.corEnvio === "azul"){
 
         enviarMensagemNoProprioChat(dados)
+        alterarStatusAtendimento("Online", alterarStatus)
 
     }
 
@@ -72,6 +63,7 @@ socket.onmessage = (e) => {
 
     }
 
+
     if(dados.listaVazia || !dados.listaVazia && dados.listaVazia !== undefined){
     
         msgAviso(dados)
@@ -80,9 +72,17 @@ socket.onmessage = (e) => {
 
     if(dados.desligado || !dados.desligado && dados.desligado !== undefined){
 
-        msgAviso(dados)
+        msgAviso(dados, alterarStatus)
         return
     }
+
+    if(dados.pareado && condicao && dados.tipoPessoa !== "Atendente"){
+
+        alterarStatus = criarStatusAtendimento("online")
+        condicao = false
+    }
+
+
 
 }
 

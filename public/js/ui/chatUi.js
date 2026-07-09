@@ -19,7 +19,7 @@ export const DOM = {
     }
 }
 
-export function msgAviso(dados){
+export function msgAviso(dados, idAlterarStatus){
 
     const linhaMensagemPrincipal = document.createElement("span")
     const linhaMensagemSecundaria = document.createElement("span")
@@ -55,6 +55,8 @@ export function msgAviso(dados){
         linhaMensagemPrincipal.textContent = "Atendente Desconectado."
 
         linhaMensagemPrincipal.classList.add("aviso-principal")
+
+        alterarStatusAtendimento("Offline", idAlterarStatus)
 
     }else if(dados.desligado && dados.tipo === "Cliente"){
 
@@ -106,13 +108,23 @@ export function criarMensagem(dados, imagem){
 
     linhaNome.classList.add("nome-pessoa")
 
-    criarLinhaLista.appendChild(imagem)
+    console.log(dados.corEnvio)
+
+    if(dados.corEnvio !== "azul"){
+
+        criarLinhaLista.appendChild(imagem)
+    }
 
     agruparConteudo.appendChild(linhaNome)
     agruparConteudo.appendChild(pularLinha)
     agruparConteudo.appendChild(linhaConteudoMensagem)
 
     criarLinhaLista.appendChild(agruparConteudo)
+
+    if(dados.corEnvio === "azul"){
+
+        criarLinhaLista.appendChild(imagem)
+    }
 
     linhaConteudoMensagem.classList.add("msg-enviada")
     agruparConteudo.classList.add("conteudo-msg")
@@ -174,6 +186,47 @@ export function enviarMensagemParaOutro(dados){
         imagem.classList.add("imagem-cliente")
             
         criarMensagem(dados, imagem)
+    }
+
+}
+
+export function criarStatusAtendimento(status){
+
+    const linhaStatus = document.createElement("span")
+    const addStatusChat = DOM.Chat.nomeAtendente
+
+    linhaStatus.textContent = ""
+
+    if(status === "online"){
+
+        linhaStatus.textContent = "Online"
+        linhaStatus.classList.add("status-online")
+        linhaStatus.id = "statusConexao"
+    }
+
+    addStatusChat.appendChild(linhaStatus)
+
+    const idStatus = "statusConexao"
+
+    return idStatus
+
+}
+
+export function alterarStatusAtendimento(status, id){
+
+    const span = document.getElementById(id)
+
+    if(status === "Offline"){
+
+        span.textContent = "Offline"
+        span.classList.remove("status-online")
+        span.classList.add("status-offline")
+
+    }else{
+
+        span.textContent = "Online"
+        span.classList.remove("status-offline")
+        span.classList.add("status-online")
     }
 
 }
