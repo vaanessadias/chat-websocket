@@ -50,7 +50,8 @@ export function parear(){
 
                             mensagem: "Atendente Conectado.",
                             tipoPessoa: cliente.tipoPessoa,
-                            listaVazia: false
+                            listaVazia: false,
+                            status:"Online"
                         }))
                         break
                     }

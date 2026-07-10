@@ -19,7 +19,7 @@ export const DOM = {
     }
 }
 
-export function msgAviso(dados, idAlterarStatus){
+export function msgAviso(dados, idAlterarStatus, nomeAten){
 
     const linhaMensagemPrincipal = document.createElement("span")
     const linhaMensagemSecundaria = document.createElement("span")
@@ -29,6 +29,11 @@ export function msgAviso(dados, idAlterarStatus){
     const statusAtendente = DOM.Chat.status
 
     iconeAviso.src = "../imagens/icones/warning-filled-svgrepo-com.png"
+
+    if(dados.status !== undefined){
+
+        alterarStatusAtendimento(dados.status, idAlterarStatus, nomeAten)
+    }
 
     if(dados.posicao > 1){
 
@@ -56,7 +61,7 @@ export function msgAviso(dados, idAlterarStatus){
 
         linhaMensagemPrincipal.classList.add("aviso-principal")
 
-        alterarStatusAtendimento("Offline", idAlterarStatus)
+        alterarStatusAtendimento("Offline", idAlterarStatus, nomeAten)
 
     }else if(dados.desligado && dados.tipo === "Cliente"){
 
@@ -212,21 +217,43 @@ export function criarStatusAtendimento(status){
 
 }
 
-export function alterarStatusAtendimento(status, id){
+export function alterarStatusAtendimento(status, id, nomeAten){
 
     const span = document.getElementById(id)
 
     if(status === "Offline"){
 
-        span.textContent = "Offline"
+        if(nomeAten === "" || nomeAten === undefined){
+
+            span.textContent = "Offline"
+        }else{
+
+            span.textContent = `${nomeAten} - Offline`
+        }
+
         span.classList.remove("status-online")
         span.classList.add("status-offline")
 
-    }else{
+        return nomeAten = ""
 
-        span.textContent = "Online"
+    }
+    
+    if(status === "Online"){
+
+        console.log("Entrou no online")
+        console.log(nomeAten)
+
+        if(nomeAten === "" || nomeAten === undefined){
+
+            span.textContent = "Online"
+        }else{
+
+            span.textContent = `${nomeAten} - Online`
+        }
+
         span.classList.remove("status-offline")
         span.classList.add("status-online")
+
     }
 
 }

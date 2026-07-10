@@ -11,6 +11,8 @@ import {
 const socket = new WebSocket("ws://localhost:3000")
 let alterarStatus
 let condicao = true
+let nomeAtendenteLogado = ""
+let nomeAlterado = false
 
 socket.onopen = () => {
 
@@ -21,9 +23,11 @@ socket.onopen = () => {
             fila: false,
             pessoaLogada: localStorage.getItem("pessoaLogada") 
         }))
+        
         if(alterarStatus === undefined){
             alterarStatus = criarStatusAtendimento("online")
         }
+        
 
     }else if(localStorage.getItem("tipoPessoa") === "Cliente"){
 
@@ -42,6 +46,8 @@ socket.onmessage = (e) => {
 
     const dados = JSON.parse(e.data)
 
+    console.log(dados)
+
     // Criar e mandar msg
 
     if(dados.posicao > 1){
@@ -49,12 +55,28 @@ socket.onmessage = (e) => {
         return
     }
 
+    if(condicao && alterarStatus === undefined){
+
+        alterarStatus = criarStatusAtendimento("online")
+        condicao = false
+    }
+
+    if(dados.enviado === "Atendente" || dados.tipoPessoa === "Atendente" && dados.enviado !== "Cliente"){
+
+        nomeAtendenteLogado = dados.nome
+        console.log("entrou aqui")
+        alterarStatusAtendimento("Online", alterarStatus, nomeAtendenteLogado)
+    }
+
+
+    if(dados.tipoPessoa === "Cliente" && nomeAtendenteLogado !== undefined){
+
+        alterarStatusAtendimento("Online", alterarStatus, nomeAtendenteLogado)
+    }
 
     if(dados.corEnvio === "azul"){
 
         enviarMensagemNoProprioChat(dados)
-        alterarStatusAtendimento("Online", alterarStatus)
-
     }
 
     if(dados.corEnvio === "preto"){
@@ -66,22 +88,21 @@ socket.onmessage = (e) => {
 
     if(dados.listaVazia || !dados.listaVazia && dados.listaVazia !== undefined){
     
-        msgAviso(dados)
+        msgAviso(dados, alterarStatus)
         return
     }
 
     if(dados.desligado || !dados.desligado && dados.desligado !== undefined){
 
-        msgAviso(dados, alterarStatus)
+        nomeAtendenteLogado = msgAviso(dados, alterarStatus, nomeAtendenteLogado)
+
+        if(dados.tipo === "Atendente"){
+
+            nomeAlterado = false
+        }
+
         return
     }
-
-    if(dados.pareado && condicao && dados.tipoPessoa !== "Atendente"){
-
-        alterarStatus = criarStatusAtendimento("online")
-        condicao = false
-    }
-
 
 
 }
