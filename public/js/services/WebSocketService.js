@@ -5,7 +5,9 @@ import {
   enviarMensagemParaOutro,
   DOM,
   criarStatusAtendimento,
-  alterarStatusAtendimento
+  alterarStatusAtendimento,
+  atualizacaoMetricas,
+  nomeClienteMetricas
 } from "../ui/chatUI.js"
 
 const socket = new WebSocket("ws://localhost:3000")
@@ -46,7 +48,16 @@ socket.onmessage = (e) => {
 
     const dados = JSON.parse(e.data)
 
-    console.log(dados)
+    if(dados.tipoPessoa === "Atendente" && dados.metricas){
+
+        atualizacaoMetricas(dados)
+
+    }
+
+    if(dados.nome !== undefined && dados.tipoPessoa === "Cliente"){
+
+        nomeClienteMetricas(dados)
+    }
 
     // Criar e mandar msg
 
@@ -64,7 +75,6 @@ socket.onmessage = (e) => {
     if(dados.enviado === "Atendente" || dados.tipoPessoa === "Atendente" && dados.enviado !== "Cliente"){
 
         nomeAtendenteLogado = dados.nome
-        console.log("entrou aqui")
         alterarStatusAtendimento("Online", alterarStatus, nomeAtendenteLogado)
     }
 

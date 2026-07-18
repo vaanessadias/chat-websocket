@@ -16,7 +16,38 @@ export const DOM = {
         msgAviso: $(".msg-aviso"),
         nomeAtendente: $(".nome-atendente")
 
+    },
+    Painel:{
+
+        atendentesOnline: $("#numero-atendentes"),
+        clientesAguardando: $("#numero-clientes-espera"),
+        atendimentosAndamento: $("#numero-atendimentos-andamento"),
+        tempoEspera: $("#numero-tempo-espera"),
+        nomeCliente: $(".nome-cliente"),
+        nomeAtendenteOnline: $(".nome-atendente-online")
+
     }
+}
+
+export function nomeClienteMetricas(dados){
+
+    console.log(dados)
+    DOM.Painel.nomeCliente.textContent = dados.nome
+}
+
+export function atualizacaoMetricas(dados){
+
+    console.log("Dados atualização métricas")
+
+    console.log(dados)
+
+    DOM.Painel.atendentesOnline.textContent = dados.metricas.totalAtendentes
+    DOM.Painel.clientesAguardando.textContent = dados.metricas.clientesAguardando
+    DOM.Painel.atendimentosAndamento.textContent = dados.metricas.atendimentosAndamento
+    DOM.Painel.tempoEspera.textContent = dados.metricas.tempoEspera
+
+    DOM.Painel.nomeAtendenteOnline.textContent = dados.nome
+
 }
 
 export function msgAviso(dados, idAlterarStatus, nomeAten){
@@ -87,6 +118,7 @@ export function msgAviso(dados, idAlterarStatus, nomeAten){
     paragrafoAviso.style.display = "flex"
     
     setTimeout(() => {
+        paragrafoAviso.style.top = "2px"
         paragrafoAviso.classList.add("fade-out")
 
         setTimeout(() => {
@@ -239,9 +271,6 @@ export function alterarStatusAtendimento(status, id, nomeAten){
     }
     
     if(status === "Online"){
-
-        console.log("Entrou no online")
-        console.log(nomeAten)
 
         if(nomeAten === "" || nomeAten === undefined){
 

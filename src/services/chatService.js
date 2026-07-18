@@ -9,10 +9,32 @@ export let valorIdCliente = 1
 
 export let valorIdAtendente = -1
 
+export let metricasPainel
+
+export let atendAnd = 0
+
+export function atualizarMetricasAtendentes(metricas){
+
+    if(filaAtendentes.length > 0){
+
+        filaAtendentes.forEach(atendentes => {
+
+            atendentes.send(JSON.stringify({
+
+                metricas: metricas(atendentes),
+                tipoPessoa: atendentes.tipoPessoa
+            }))
+        })
+    }
+
+}
+
 export function entrarNaFila (ws, dados){
 
     ws.tipoPessoa = dados.tipoPessoa
     ws.fila = true
+    ws.entradaFila = new Date()
+    ws.inicioAtendimento
 
     if(dados.tipoPessoa === "Atendente"){
         ws.id = valorIdAtendente 
@@ -21,6 +43,7 @@ export function entrarNaFila (ws, dados){
         ws.pessoaLogada = dados.pessoaLogada
         filaAtendentes.push(ws)
         valorIdAtendente--
+
     }else if(dados.tipoPessoa === "Cliente"){
         ws.id = valorIdCliente 
         ws.id_atendente = null
@@ -28,10 +51,68 @@ export function entrarNaFila (ws, dados){
         filaCliente.push(ws)
         valorIdCliente++
     }
+
+    atualizarMetricasAtendentes(selecionarMetricasPainel)
+
+    
+}
+
+export function selecionarMetricasPainel (pessoa){
+
+    let totalCli = filaCliente.length
+    let totalAten = filaAtendentes.length 
+    let minutos = 0
+    let calcClientesAguard = 0
+    
+    if(totalCli > totalAten){
+
+        atendAnd = totalAten
+
+    }else if(totalCli < totalAten){
+
+        atendAnd = totalCli
+
+    }else if(totalCli === totalAten){
+
+        atendAnd = totalCli
+    }
+
+    if(totalCli > totalAten){
+
+        calcClientesAguard = totalCli - totalAten
+
+    }else if(totalCli < totalAten || totalCli === totalAten){
+
+        calcClientesAguard = 0
+    }
+
+    if(pessoa.tipoPessoa === "Cliente"){
+
+        pessoa.inicioAtendimento = new Date()
+
+        let calcTempo = pessoa.inicioAtendimento - pessoa.entradaFila
+
+        minutos = Math.floor(calcTempo/60000)
+
+    }else{
+
+        minutos = 0
+    }
+
+    metricasPainel = {
+        totalAtendentes: totalAten,
+        clientesAguardando: calcClientesAguard,
+        atendimentosAndamento: atendAnd,
+        tempoEspera: minutos
+    }
+
+    return metricasPainel
+
 }
 
 
 export function parear(){
+
 
     if(filaAtendentes.length > 0 && filaCliente.length > 0){
 
@@ -41,10 +122,17 @@ export function parear(){
 
                 for(let cliente of filaCliente){
 
+
                     if(cliente.id_atendente === null){
 
                         atendente.id_cliente = cliente.id
                         cliente.id_atendente = atendente.id
+
+                        atendente.send(JSON.stringify({
+
+                            tipoPessoa: "Atendente",
+                            metricas: selecionarMetricasPainel(cliente)
+                        }))
 
                         cliente.send(JSON.stringify({
 
@@ -58,6 +146,7 @@ export function parear(){
                 }
             }
         })
+        atualizarMetricasAtendentes(selecionarMetricasPainel)
     }
 }
 
@@ -94,7 +183,8 @@ export function enviarMensagem (dados, ws, wss){
                     posicao: 0,
                     tipoPessoa: client.tipoPessoa,
                     corEnvio: "azul",
-                    pareado: true
+                    pareado: true,
+                    metricas: metricasPainel
 
                 }));
             }

@@ -8,8 +8,13 @@ import {
     filaAtendentes,
     filaCliente,
     valorIdCliente,
-    valorIdAtendente
+    valorIdAtendente,
+    atendAnd,
+    selecionarMetricasPainel,
+    atualizarMetricasAtendentes
 } from "./chatService.js"
+
+let numeroAtendAnd = atendAnd
 
 export function iniciarWebSocket(wss){
 
@@ -22,6 +27,8 @@ export function iniciarWebSocket(wss){
                 let encontrarAtendente = filaAtendentes.findIndex(antendente => antendente.id === ws.id)
         
                 filaAtendentes.splice(encontrarAtendente, 1)
+
+                atualizarMetricasAtendentes(selecionarMetricasPainel)
 
                 wss.clients.forEach(client => {
 
@@ -49,6 +56,8 @@ export function iniciarWebSocket(wss){
                 let encontrarCliente = filaCliente.findIndex(cli => cli.id === ws.id)
         
                 filaCliente.splice(encontrarCliente, 1)
+
+                atualizarMetricasAtendentes(selecionarMetricasPainel)
 
                 wss.clients.forEach(client => {
 
@@ -78,7 +87,7 @@ export function iniciarWebSocket(wss){
 
             if(dados.fila === false){
                 entrarNaFila(ws, dados)
-                parear(dados)
+                parear()
                 return
             }
 
